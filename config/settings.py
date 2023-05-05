@@ -31,12 +31,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # third party apps 
+    'rest_framework',
+
+    # my apps
+    'account.apps.AccountConfig',
 ]
 
 MIDDLEWARE = [
@@ -98,6 +105,10 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+# auth configs
+AUTH_USER_MODEL = 'account.User'
 
 
 # Internationalization
