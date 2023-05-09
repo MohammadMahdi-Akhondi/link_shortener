@@ -1,5 +1,9 @@
 asgiref==3.6.0
+async-timeout==4.0.2
 Django==4.2.1
 djangorestframework==3.14.0
+hiredis==2.2.3
+python-decouple==3.8
 pytz==2023.3
+redis==4.5.5
 sqlparse==0.4.4

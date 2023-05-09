@@ -7,5 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # endpoint of my apps
-    path('api/v1/account/', include('account.api.urls')),
+    path('api/v1/account/', include('account.urls')),
 ]

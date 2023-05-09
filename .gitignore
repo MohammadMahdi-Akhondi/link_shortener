@@ -294,6 +294,6 @@ pip-selfcheck.json
 
 # custom ignore
 images/*
-!images/avatars/avatar.jpeg
+settings.ini
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,django,virtualenv
