@@ -7,6 +7,7 @@ coreapi==2.3.3
 coreschema==0.0.4
 Django==4.2.1
 djangorestframework==3.14.0
+djangorestframework-simplejwt==5.2.2
 drf-yasg==1.21.5
 hiredis==2.2.3
 idna==3.4
@@ -16,6 +17,7 @@ Jinja2==3.1.2
 jsonschema==4.17.3
 MarkupSafe==2.1.2
 packaging==23.1
+PyJWT==2.6.0
 pyrsistent==0.19.3
 python-decouple==3.8
 pytz==2023.3

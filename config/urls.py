@@ -4,6 +4,10 @@ from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 
 schema_view = get_schema_view(
@@ -13,20 +17,24 @@ schema_view = get_schema_view(
       description='Link shortener service implemented using Django Formwork and Django Rest',
       terms_of_service='https://www.google.com/policies/terms/',
       contact=openapi.Contact('mohammadmahdi.developer@gmail.com'),
-      license=openapi.License(name="BSD License"),
+      license=openapi.License(name="GNU GENERAL PUBLIC LICENSE"),
    ),
    public=True,
    permission_classes=[permissions.AllowAny],
 )
 
 urlpatterns = [
-    # urls of admin django
-    path('admin/', admin.site.urls),
+   # urls of admin django
+   path('admin/', admin.site.urls),
 
-    # endpoint of my apps
-    path('api/v1/account/', include('account.urls')),
+   # endpoint of my apps
+   path('api/v1/account/', include('account.urls')),
 
-    # URLs of the documents
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+   # endpoints of JWT authentication
+   path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+   path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+   # URLs of the documents
+   path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+   path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

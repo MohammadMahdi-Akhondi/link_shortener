@@ -4,6 +4,7 @@ from django.core.cache import cache
 from django.db import DatabaseError
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 import secrets
 
@@ -14,7 +15,13 @@ from .. import messages
 User = get_user_model()
 
 class UserRegistrationView(APIView):
+    @swagger_auto_schema(
+        request_body=UserRegistrationSerializer(),
+    )
     def post(self, request):
+        """
+        User registration using email, first name and last name and password
+        """
         register_serializer = UserRegistrationSerializer(data=request.data)
         if register_serializer.is_valid(raise_exception=True):
             valid_data = register_serializer.validated_data
