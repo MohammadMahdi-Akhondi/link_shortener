@@ -76,3 +76,32 @@ class UserActivateTest(TestCase):
             response.status_code,
             status.HTTP_400_BAD_REQUEST,
         )
+
+
+class UserPhoneActivateTest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.url = reverse('phone_activate')
+        self.data = {'phone': '09121234567'}
+    
+    def test_with_valid_phone(self):
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+        )
+    
+    def test_with_invalid_method(self):
+        response = self.client.get(self.url, self.data)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_405_METHOD_NOT_ALLOWED,
+        )
+    
+    def test_with_invalid_data(self):
+        invalid_data = {'phone': '13254956527'}
+        response = self.client.post(self.url, invalid_data)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_400_BAD_REQUEST,
+        )

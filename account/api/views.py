@@ -8,10 +8,16 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 import secrets
+import random
+import string
 
-from .serializers import UserRegistrationSerializer
+from utils import sms
 from .. import exceptions
 from .. import messages
+from .serializers import (
+    UserRegistrationSerializer,
+    UserPhoneActivateSerializer,
+)
 
 User = get_user_model()
 
@@ -75,3 +81,31 @@ class UserActivateView(APIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+class UserPhoneActivateView(APIView):
+    @swagger_auto_schema(
+        request_body=UserPhoneActivateSerializer(),
+    )
+    def post(self, request):
+        """
+        The mobile number is taken from the user and a confirmation code is sent to him.
+        """
+        CODE_LENGTH = 6
+        phone_serializer = UserPhoneActivateSerializer(data=request.data)
+        if phone_serializer.is_valid(raise_exception=True):
+            code = ''.join(random.choice(string.digits) for i in range(CODE_LENGTH))
+            phone = phone_serializer.validated_data.get('phone')
+            # TODO: send SMS by Rabbitmq and celery
+            sent = sms.send_validation_code(receptor=phone, token=code)
+            if not sent:
+                raise exceptions.SMS_NOT_SENT
+
+            # Save code in cache for 20 minutes
+            cache.set(code, phone, timeout=1200)
+            return Response(
+                data={
+                    'message': messages.SMS_SENT,
+                },
+                status=status.HTTP_200_OK,
+            )

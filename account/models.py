@@ -12,6 +12,12 @@ class User(AbstractUser):
         unique=True,
         verbose_name=_('Email address'),
     )
+    phone = models.CharField(
+        max_length=11,
+        unique=True,
+        null=True, blank=True,
+        verbose_name=_('Phone')
+    )
     premium_until = models.DateTimeField(
         default=timezone.now,
         verbose_name=_('Premium up to'),
