@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.core.cache import cache
 from django.db import DatabaseError
+from django.urls import reverse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
@@ -33,17 +34,18 @@ class UserRegistrationView(APIView):
 
             email = valid_data.get('email')
             token = secrets.token_urlsafe(32)
+            activation_link = request.build_absolute_uri(reverse('user_activate', args=(token,)))
 
             # TODO: Send email by Rabbitmq and celery
             send_mail(
                 subject='validation',
-                message=token,
+                message=activation_link,
                 from_email= 'shortlink@gmail.com',
                 recipient_list=[email]
             )
 
             # Save token in cache for 24 hours
-            cache.set(email, token, timeout=86400)
+            cache.set(token, email, timeout=86400)
 
             return Response(
                 data={
@@ -51,3 +53,25 @@ class UserRegistrationView(APIView):
                 },
                 status=status.HTTP_201_CREATED
             )
+
+
+class UserActivateView(APIView):
+    def get(self, request, token):
+        """
+        Activation of the user account using the token stored in the cache.
+        """
+        email = cache.get(token)
+        if not email:
+            # TODO: redirect user to error page
+            raise exceptions.TokenExpired
+        
+        user = User.objects.filter(email=email)
+        user.update(is_active=True)
+
+        # TODO: redirect user to login page
+        return Response(
+            data={
+                'message': messages.USER_ACTIVATED,
+            },
+            status=status.HTTP_200_OK,
+        )

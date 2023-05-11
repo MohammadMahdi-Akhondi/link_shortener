@@ -4,5 +4,6 @@ from .api import views
 
 
 urlpatterns = [
-    path('user/registration/', views.UserRegistrationView.as_view(), name='user_registration'),
+    path('registration/', views.UserRegistrationView.as_view(), name='user_registration'),
+    path('activate/<str:token>/', views.UserActivateView.as_view(), name='user_activate')
 ]
