@@ -10,8 +10,7 @@ class UserAdmin(DjangoUserAdmin):
     """ Define admin model for custom User model. """
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name')}),
-        (_('Premium account'), {'fields': ('premium_until',)}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'phone')}),
         (
             _('Permissions'),
             {
@@ -24,7 +23,7 @@ class UserAdmin(DjangoUserAdmin):
                 )
             }
         ),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined', 'premium_until')}),
     )
     add_fieldsets = (
         (None, {

@@ -33,3 +33,7 @@ class UserPhoneActivateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Invalid phone number')
 
         return phone
+
+
+class UserPhoneVerifySerializer(serializers.Serializer):
+    code = serializers.IntegerField()

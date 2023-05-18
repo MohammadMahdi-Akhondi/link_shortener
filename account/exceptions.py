@@ -14,7 +14,13 @@ class TokenExpired(APIException):
     default_code = 'token_expired'
 
 
-class SMS_NOT_SENT(APIException):
+class SMSNotSent(APIException):
     status_code = 500
     default_detail = messages.SOMETHING_WENT_WRONG
     default_code = 'sms_not_sent'
+
+
+class CodeIsInvalid(APIException):
+    status_code = 400
+    default_detail = messages.CODE_IS_INVALID
+    default_code = 'code_is_invalid'
