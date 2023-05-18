@@ -41,5 +41,17 @@ class CreateLinkView(generics.GenericAPIView):
 
             return Response(
                 data={'message': messages.LINK_CREATED},
-                status=status.HTTP_200_OK,
+                status=status.HTTP_201_CREATED,
             )
+
+
+class ListLinkView(generics.ListAPIView):
+    """
+    View for list links for the authenticated user.
+    """
+    authentication_classes = (JWTAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
+    serializer_class = serializers.CreateLinkSerializer
+
+    def get_queryset(self):
+        return Link.objects.filter(user=self.request.user, deleted_at__isnull=True)

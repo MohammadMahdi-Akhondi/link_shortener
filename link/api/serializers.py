@@ -11,3 +11,9 @@ class CreateLinkSerializer(serializers.ModelSerializer):
             'clicks_count',
             'deleted_at',
         )
+
+
+class ListLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Link
+        fields = '__all__'

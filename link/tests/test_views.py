@@ -45,5 +45,31 @@ class CreateLinkTest(TestCase):
         response = self.client.post(self.url, self.data)
         self.assertEqual(
             response.status_code,
+            status.HTTP_201_CREATED,
+        )
+
+
+class ListLinkView(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.url = reverse('list_link')
+        self.user = User.objects.create_user(
+            email='test@gmail.com',
+            password='1234',
+        )
+        self.access_token = AccessToken.for_user(self.user)
+    
+    def test_with_unauthorized_user(self):
+        response = self.client.get(self.url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+        )
+    
+    def test_with_valid_method(self):
+        self.client.force_authenticate(self.user, self.access_token)
+        response = self.client.get(self.url)
+        self.assertEqual(
+            response.status_code,
             status.HTTP_200_OK,
         )
