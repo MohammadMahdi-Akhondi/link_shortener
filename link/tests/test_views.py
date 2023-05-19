@@ -78,6 +78,57 @@ class ListLinkTest(TestCase):
         )
 
 
+class DetailLinkTest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.owner = User.objects.create_user(
+            email='test@gmail.com',
+            password='1234',
+        )
+        self.owner_access_token = AccessToken.for_user(self.owner)
+        self.link = Link.objects.create(
+            title='test', real_link='http://test.com',
+            token='token', user=self.owner,
+        )
+        self.url = reverse('detail_link', args=[self.link.id])
+
+    def test_with_unauthorized_user(self):
+        response = self.client.get(self.url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_401_UNAUTHORIZED,
+        )
+    
+    def test_with_invalid_method(self):
+        self.client.force_authenticate(self.owner, self.owner_access_token)
+        response = self.client.post(self.url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_405_METHOD_NOT_ALLOWED,
+        )
+
+    def test_with_another_user(self):
+        user = User.objects.create_user(
+            email='new@gmail.com',
+            password='1234',
+        )
+        access_token = AccessToken.for_user(user)
+        self.client.force_authenticate(user, access_token)
+        response = self.client.get(self.url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_403_FORBIDDEN,
+        )
+    
+    def test_with_valid_data(self):
+        self.client.force_authenticate(self.owner, self.owner_access_token)
+        response = self.client.get(self.url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+        )
+
+
 class UpdateLinkTest(TestCase):
     def setUp(self):
         self.client = APIClient()

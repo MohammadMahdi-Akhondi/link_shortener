@@ -67,7 +67,7 @@ class DetailLinkView(generics.RetrieveAPIView):
     View for retrieve detail of a link. 
     """
     authentication_classes = (JWTAuthentication, )
-    permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (IsOwnerOrAdmin, )
     serializer_class = serializers.UpdateDetailLinkSerializer
     queryset = Link.objects.filter(deleted_at__isnull=True)
     lookup_url_kwarg = 'link_id'
