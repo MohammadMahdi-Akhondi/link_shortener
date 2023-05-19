@@ -62,13 +62,25 @@ class ListLinkView(generics.ListAPIView):
         return Link.objects.filter(user=self.request.user, deleted_at__isnull=True)
 
 
+class DetailLinkView(generics.RetrieveAPIView):
+    """
+    View for retrieve detail of a link. 
+    """
+    authentication_classes = (JWTAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
+    serializer_class = serializers.UpdateDetailLinkSerializer
+    queryset = Link.objects.filter(deleted_at__isnull=True)
+    lookup_url_kwarg = 'link_id'
+
+
+
 class UpdateLinkView(generics.UpdateAPIView):
     """
     View for update links for the authenticated user.
     """
     authentication_classes = (JWTAuthentication, )
     permission_classes = (IsOwnerOrAdmin, )
-    serializer_class = serializers.UpdateLinkSerializer
+    serializer_class = serializers.UpdateDetailLinkSerializer
 
     def get_object(self):
         link_id = self.kwargs.get('link_id')
@@ -85,7 +97,6 @@ class DeleteLinkView(generics.DestroyAPIView):
     """
     authentication_classes = (JWTAuthentication, )
     permission_classes = (IsOwnerOrAdmin, )
-    serializer_class = serializers.UpdateLinkSerializer
     queryset = Link.objects.filter(deleted_at__isnull=True)
     lookup_url_kwarg = 'link_id'
 
@@ -103,7 +114,7 @@ class RedirectLinkView(generics.GenericAPIView):
             token=token, deleted_at__isnull=True
         )
         if request.user == link.user:
-            return redirect(reverse('list_link'))
+            return redirect(reverse('detail_link'), args=[link.id])
         
         link.clicks_count += 1
         link.save()

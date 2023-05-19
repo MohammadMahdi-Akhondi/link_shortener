@@ -20,7 +20,7 @@ class ListLinkSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UpdateLinkSerializer(serializers.ModelSerializer):
+class UpdateDetailLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Link
         exclude = (
