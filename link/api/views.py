@@ -3,11 +3,13 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status, generics
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 import uuid
 
 from . import serializers
 from ..models import Link
 from .. import messages
+from ..permissions import IsOwnerOrAdmin
 
 
 def generate_unique_token(token_length: int) -> str:
@@ -51,7 +53,24 @@ class ListLinkView(generics.ListAPIView):
     """
     authentication_classes = (JWTAuthentication, )
     permission_classes = (permissions.IsAuthenticated, )
-    serializer_class = serializers.CreateLinkSerializer
+    serializer_class = serializers.ListLinkSerializer
 
     def get_queryset(self):
         return Link.objects.filter(user=self.request.user, deleted_at__isnull=True)
+
+
+class UpdateLinkView(generics.UpdateAPIView):
+    """
+    View for update links for the authenticated user.
+    """
+    authentication_classes = (JWTAuthentication, )
+    permission_classes = (IsOwnerOrAdmin, )
+    serializer_class = serializers.UpdateLinkSerializer
+
+    def get_object(self):
+        link_id = self.kwargs.get('link_id')
+        link = get_object_or_404(Link, pk=link_id, deleted_at__isnull=True)
+
+        # May raise a permission denied
+        self.check_object_permissions(self.request, link)
+        return link
