@@ -74,3 +74,18 @@ class UpdateLinkView(generics.UpdateAPIView):
         # May raise a permission denied
         self.check_object_permissions(self.request, link)
         return link
+
+
+class DeleteLinkView(generics.DestroyAPIView):
+    """
+    View for update links for the authenticated user.
+    """
+    authentication_classes = (JWTAuthentication, )
+    permission_classes = (IsOwnerOrAdmin, )
+    serializer_class = serializers.UpdateLinkSerializer
+    queryset = Link.objects.filter(deleted_at__isnull=True)
+    lookup_url_kwarg = 'link_id'
+
+    def perform_destroy(self, link):
+        link.deleted_at = timezone.now()
+        link.save()
