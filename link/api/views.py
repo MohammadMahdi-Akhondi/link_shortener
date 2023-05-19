@@ -3,7 +3,10 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status, generics
 from django.utils import timezone
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.db.models import Q
 import uuid
 
 from . import serializers
@@ -89,3 +92,19 @@ class DeleteLinkView(generics.DestroyAPIView):
     def perform_destroy(self, link):
         link.deleted_at = timezone.now()
         link.save()
+
+
+class RedirectLinkView(generics.GenericAPIView):
+    authentication_classes = (JWTAuthentication, )
+
+    def get(self, request, token):
+        link = get_object_or_404(
+            Link, Q(expire_at__isnull=True) | Q(expire_at__gt=timezone.now()),
+            token=token, deleted_at__isnull=True
+        )
+        if request.user == link.user:
+            return redirect(reverse('list_link'))
+        
+        link.clicks_count += 1
+        link.save()
+        return HttpResponseRedirect(link.real_link)

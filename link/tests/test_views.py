@@ -195,3 +195,31 @@ class DeleteLinkTest(TestCase):
             response.status_code,
             status.HTTP_204_NO_CONTENT,
         )
+
+
+class RedirectLinkTest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.owner = User.objects.create_user(
+            email='test@gmail.com',
+            password='1234',
+        )
+        self.link = Link.objects.create(
+            title='test', real_link='http://test.com',
+            token='token', user=self.owner,
+        )
+        self.url = reverse('redirect_link', args=[self.link.token])
+
+    def test_with_invalid_method(self):
+        response = self.client.post(self.url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_405_METHOD_NOT_ALLOWED,
+        )
+
+    def test_with_guest_user(self):
+        response = self.client.get(self.url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_302_FOUND,
+        )
