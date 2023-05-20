@@ -8,21 +8,19 @@ services:
       dockerfile: Dockerfile
     volumes:
       - .:/app
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
     depends_on:
       - db
       - redis
       - rabbitmq
-    networks:
-      - main
     environment:
       - DB_HOST=db
       - DB_PORT=5432
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - RABBITMQ_HOST=rabbitmq
-      - RABBITMQ_PORT=5672
+      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+      - CELERY_RESULT_BACKEND=redis://redis:6379
     restart: always
     command: python /app/manage.py runserver 0.0.0.0:8000
 
@@ -34,16 +32,16 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=strong_pass
+    expose:
+      - 5432
     volumes:
     - postgres_data:/var/lib/postgresql/data
 
   redis:
     container_name: redis
     image: redis:7.0.11
-    ports:
-      - "6379:6379"
-    networks:
-      - main
+    expose:
+      - 6379
     restart: always
   
   rabbitmq:
@@ -51,8 +49,6 @@ services:
     image: rabbitmq:3.11
     ports:
       - "5672:5672"
-    networks:
-      - main
     restart: always
     environment:
       - RABBITMQ_DEFAULT_USER=guest
@@ -71,6 +67,3 @@ services:
 
 volumes:
   postgres_data:
-
-networks:
-  main:
