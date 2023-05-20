@@ -23,6 +23,23 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379
     restart: always
     command: python /app/manage.py runserver 0.0.0.0:8000
+  
+  worker:
+    container_name: worker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+      - CELERY_RESULT_BACKEND=redis://redis:6379
+    restart: always
+    command: celery -A config worker -l INFO
 
   db:
     container_name: postgres
