@@ -1,6 +1,6 @@
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
-from django.core.mail import send_mail
 from django.core.cache import cache
 from django.db import DatabaseError
 from django.urls import reverse
@@ -13,6 +13,7 @@ import secrets
 import random
 import string
 
+from account.tasks import send_html_email_task
 from utils import sms
 from .. import exceptions
 from .. import messages
@@ -47,12 +48,14 @@ class UserRegistrationView(APIView):
             token = secrets.token_urlsafe(32)
             activation_link = request.build_absolute_uri(reverse('user_activate', args=(token,)))
 
-            # TODO: Send email by Rabbitmq and celery
-            send_mail(
-                subject='validation',
-                message=activation_link,
-                from_email= 'shortlink@gmail.com',
-                recipient_list=[email]
+            html_email = render_to_string(
+                template_name='account/verify_email.html',
+                context={'activation_link': activation_link},
+            )
+            send_html_email_task.delay(
+                'Activate account',
+                html_email,
+                email
             )
 
             # Save token in cache for 24 hours

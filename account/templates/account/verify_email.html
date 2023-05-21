@@ -1,0 +1,28 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% trans "Activate Your Account" %}</title>
+</head>
+<body>
+    <p>
+        {% blocktrans %}
+        Congratulations on joining Our Platform We're delighted to have you as a new member of our community.
+        To get started and fully activate your account, simply click on the activation link below:
+        {% endblocktrans %}
+    </p>
+    <a href={{ activation_link }}>active my account</a>
+    <p>
+        {% blocktrans %}
+        By clicking on the activation link, your account will be instantly activated, 
+        and you'll gain access to all the exciting features and benefits our platform offers.
+        {% endblocktrans %}
+    </p>
+    <p>Best regards,</p>
+    <p>{% trans "MohammadMahdi Akhondi" %}</p>
+    <p>{% trans "Developer" %}</p>
+    <p>{% trans "link shortener" %}</p>
+    <a href="mailto: mohammadmahdi.developer@gmail.com">contact</a>
+</body>
+</html>
