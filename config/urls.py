@@ -30,6 +30,7 @@ urlpatterns = [
    # endpoint of my apps
    path('api/v1/account/', include('account.urls')),
    path('api/v1/link/', include('link.urls')),
+   path('api/v1/payment/', include('link.payment')),
 
    # endpoints of JWT authentication
    path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
