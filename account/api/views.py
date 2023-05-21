@@ -13,10 +13,12 @@ import secrets
 import random
 import string
 
-from account.tasks import send_html_email_task
-from utils import sms
 from .. import exceptions
 from .. import messages
+from account.tasks import (
+    send_html_email_task,
+    send_sms_validation_code_task,
+)
 from .serializers import (
     UserRegistrationSerializer,
     UserPhoneActivateSerializer,
@@ -53,9 +55,9 @@ class UserRegistrationView(APIView):
                 context={'activation_link': activation_link},
             )
             send_html_email_task.delay(
-                'Activate account',
-                html_email,
-                email
+                subject='Activate account',
+                html_email=html_email,
+                recipient=email,
             )
 
             # Save token in cache for 24 hours
@@ -108,11 +110,10 @@ class UserPhoneActivateView(APIView):
         if phone_serializer.is_valid(raise_exception=True):
             code = ''.join(random.choice(string.digits) for i in range(CODE_LENGTH))
             phone = phone_serializer.validated_data.get('phone')
-            # TODO: send SMS by Rabbitmq and celery
-            # sent = sms.send_validation_code(receptor=phone, token=code)
-            # if not sent:
-            #     raise exceptions.SMSNotSent
-            print(code)
+            send_sms_validation_code_task.delay(
+                receptor=phone,
+                token=code,
+            )
 
             # Save code in cache for 20 minutes
             cache.set(code, phone, timeout=1200)
