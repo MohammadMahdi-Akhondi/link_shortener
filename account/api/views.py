@@ -183,7 +183,6 @@ class UserUpgradeView(APIView):
             'mail': request.user.email,
             'callback': callback,
         }
-        print(data)
         response = api.create_transaction(data=data)
         try:
             Transaction.objects.create(

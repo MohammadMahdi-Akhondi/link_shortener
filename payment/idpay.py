@@ -40,3 +40,6 @@ class IDPayAPI(object):
     
     def create_transaction(self, data=None) -> dict:
         return self._request(action='payment', data=data)
+    
+    def confirm_transaction(self, data=None) -> dict:
+        return self._request(method='verify', data=data)
