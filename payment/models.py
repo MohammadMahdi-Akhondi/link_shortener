@@ -26,6 +26,7 @@ class Transaction(models.Model):
     )
     order_id = models.CharField(
         max_length=50,
+        unique=True,
         verbose_name=_('Order ID')
     )
     transaction_id = models.CharField(
@@ -36,20 +37,26 @@ class Transaction(models.Model):
         verbose_name=_('Amount')
     )
     date = models.DateTimeField(
+        null=True, blank=True,
         verbose_name=_('Date')
     )
     card_number = models.CharField(
         max_length=100,
+        null=True, blank=True,
         verbose_name=_('Card number')
     )
     gateway_track_id = models.IntegerField(
+        null=True, blank=True,
         verbose_name=_('Gateway track ID')
     )
     bank_track_id = models.CharField(
+        null=True, blank=True,
         max_length=100,
         verbose_name=_('Bank track ID')
     )
     status = models.IntegerField(
+        choices=STATUS_CHOICES,
+        default=8,
         verbose_name=_('Status')
     )
 

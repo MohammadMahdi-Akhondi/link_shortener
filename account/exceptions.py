@@ -18,3 +18,15 @@ class CodeIsInvalid(APIException):
     status_code = 400
     default_detail = messages.CODE_IS_INVALID
     default_code = 'code_is_invalid'
+
+
+class PhoneNotRegistered(APIException):
+    status_code = 400
+    default_detail = messages.PHONE_NOT_REGISTERED
+    default_code = 'phone_not_registered'
+
+
+class SomethingWentWrong(APIException):
+    status_code = 500
+    default_detail = messages.SOMETHING_WENT_WRONG
+    default_code = 'something_went_wrong'

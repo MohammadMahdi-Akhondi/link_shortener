@@ -9,10 +9,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
+from decouple import config
+from uuid import uuid4
 import secrets
 import random
 import string
 
+from payment.models import Transaction
+from payment.idpay import IDPayAPI
 from .. import exceptions
 from .. import messages
 from account.tasks import (
@@ -154,3 +158,45 @@ class UserPhoneVerifyView(APIView):
                 },
                 status=status.HTTP_200_OK,
             )
+
+
+class UserUpgradeView(APIView):
+    authentication_classes = (JWTAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request):
+        if request.user.phone == None:
+            raise exceptions.PhoneNotRegistered
+
+        callback = request.build_absolute_uri(reverse('payment:callback_transaction'))
+        order_id = uuid4().hex[:30]
+        amount = config('UPGRADE_PRICE')
+        api = IDPayAPI(
+            apikey=config('IDPAY_API_KEY', default='6a7f99eb-7c20-4412-a972-6dfb7cd253a4'),
+            sandbox=config('IDPAY_SANDBOX'),
+        )
+        data = {
+            'order_id': order_id,
+            'amount': amount,
+            'name': request.user.get_full_name(),
+            'phone': request.user.phone,
+            'mail': request.user.email,
+            'callback': callback,
+        }
+        print(data)
+        response = api.create_transaction(data=data)
+        try:
+            Transaction.objects.create(
+                user=request.user,
+                order_id=order_id,
+                amount=amount,
+                transaction_id=response.get('id'),
+            )
+        
+        except DatabaseError:
+            raise exceptions.SomethingWentWrong
+
+        return Response(
+            data={'link': response.get('link')},
+            status=status.HTTP_200_OK,
+        )

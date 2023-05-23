@@ -31,10 +31,7 @@ class IDPayAPI(object):
             response = requests.post(url=url, headers=self.header, data=json.dumps(data))
             error_status_codes = list(range(400, 406))
             if response.status_code in error_status_codes:
-                print(response.json())
-                print(data)
-                print(self.header)
-                # raise APIException(f'status code: {response.status_code}, error code: {error_code}')
+                raise APIException(f'status code: {response.status_code} detail:{response.json()}')
 
             return response.json()
 
