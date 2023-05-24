@@ -43,5 +43,4 @@ class CallbackTransactionView(generics.GenericAPIView):
                     current_transaction.user.premium_until = datetime.datetime.now() + duration
                     current_transaction.user.save()
 
-            
             return redirect('link:list_link')

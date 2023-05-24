@@ -1,0 +1,298 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# MohammadMahdi Akhondi <mohammadmahdi.developer@gmail.com>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-24 22:08+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: MohammadMahdi Akhondi <mohammadmahdi.developer@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: Persian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: account/admin.py:13
+msgid "Personal info"
+msgstr "اطلاعات فردی"
+
+#: account/admin.py:15
+msgid "Permissions"
+msgstr "دسترسی‌ها"
+
+#: account/admin.py:26
+msgid "Important dates"
+msgstr "تاریخ‌های مهم"
+
+#: account/apps.py:9
+msgid "Account"
+msgstr "حساب کاربری"
+
+#: account/messages.py:4
+msgid "User registered successfully."
+msgstr "کاربر با موفقیت ثبت نام شد."
+
+#: account/messages.py:5
+msgid "User not registered."
+msgstr "کاربر ثبت نام نشد."
+
+#: account/messages.py:6
+msgid "User activated"
+msgstr "کاربر فعال شد."
+
+#: account/messages.py:7
+msgid "Token expired!"
+msgstr "توکن منقضی شده است."
+
+#: account/messages.py:8
+msgid "SMS sent."
+msgstr "پیامک ارسال شد."
+
+#: account/messages.py:9
+msgid "Code is invalid!"
+msgstr "کد تایید اشتباه است."
+
+#: account/messages.py:10
+msgid "Phone verified."
+msgstr "شماره‌همراه تایید شد."
+
+#: account/messages.py:11
+msgid "Phone not registered. please register your phone number"
+msgstr "شماره همراه ثبت نشده. لطفا شماره تلفن خود را ثبت کنید."
+
+#: account/messages.py:12
+msgid "Something went wrong."
+msgstr "مشکلی پیش آمد."
+
+#: account/models.py:13
+msgid "Email address"
+msgstr "آدرس ایمیل"
+
+#: account/models.py:19
+msgid "Phone"
+msgstr "شماره‌همراه"
+
+#: account/models.py:23
+msgid "Premium up to"
+msgstr "کاربر ویژه تا تاریخ"
+
+#: account/models.py:32 link/models.py:23 payment/models.py:25
+msgid "User"
+msgstr "کاربر"
+
+#: account/models.py:33
+msgid "Users"
+msgstr "کاربران"
+
+#: account/templates/account/verify_email.html:6
+msgid "Activate Your Account"
+msgstr "فعال سازی حساب کاربری"
+
+#: account/templates/account/verify_email.html:10
+msgid ""
+"\n"
+"        Congratulations on joining Our Platform We're delighted to have you "
+"as a new member of our community.\n"
+"        To get started and fully activate your account, simply click on the "
+"activation link below:\n"
+"        "
+msgstr ""
+"\n"
+"        بابت پیوستن به پلتفرم ما تبریک می‌گوییم. ما از داشتن شما به عنوان  "
+" عضو جدید جامعه ما خوشحالیم.\n"
+"        برای شروع و فعال سازی کامل حساب خود، کافی است روی لینک فعال سازی زیر کلیک کنید:"
+"        "
+
+
+#: account/templates/account/verify_email.html:17
+msgid ""
+"\n"
+"        By clicking on the activation link, your account will be instantly "
+"activated, \n"
+"        and you'll gain access to all the exciting features and benefits our "
+"platform offers.\n"
+"        "
+msgstr ""
+"\n"
+"        با کلیک بر روی لینک فعال سازی، حساب کاربری شما بلافاصله "
+"فعال می شود.\n"
+"        و به تمام ویژگی ها و مزایای مهیج که پلتفرم ما ارائه می دهد "
+"دسترسی خواهید داشت.\n"
+"        "
+
+#: account/templates/account/verify_email.html:23
+msgid "MohammadMahdi Akhondi"
+msgstr "محمدمهدی آخوندی"
+
+#: account/templates/account/verify_email.html:24
+msgid "Developer"
+msgstr "توسعه‌دهنده"
+
+#: account/templates/account/verify_email.html:25
+msgid "link shortener"
+msgstr "کوتاه‌کننده لینک"
+
+#: config/urls.py:15
+msgid "Link shortener"
+msgstr "کوتاه‌کننده لینک"
+
+#: link/admin.py:7 link/admin.py:8
+msgid "Link Shortener Service"
+msgstr "سرویس کوتاه‌کننده لینک"
+
+#: link/admin.py:9
+msgid "Link Shortener Management"
+msgstr "مدیریت کوتاه‌کننده لینک"
+
+#: link/apps.py:8
+msgid "Link management"
+msgstr "مدیریت لینک‌ها"
+
+#: link/messages.py:4
+msgid "Link created."
+msgstr "لینک ایجاد شد"
+
+#: link/models.py:9
+msgid "Title"
+msgstr "عنوان"
+
+#: link/models.py:12
+msgid "Real link"
+msgstr "لینک اصلی"
+
+#: link/models.py:17
+msgid "Token"
+msgstr "توکن"
+
+#: link/models.py:27
+msgid "Description"
+msgstr "توضیحات"
+
+#: link/models.py:31
+msgid "Clicks count"
+msgstr "تعداد کلیک‌ها"
+
+#: link/models.py:35
+msgid "Is active?"
+msgstr "فعال است؟"
+
+#: link/models.py:39
+msgid "Expire at"
+msgstr "تاریخ انقضا"
+
+#: link/models.py:43
+msgid "Created"
+msgstr "تاریخ ایجاد"
+
+#: link/models.py:47
+msgid "Updated"
+msgstr "تاریخ ویرایش"
+
+#: link/models.py:51
+msgid "Is deleted"
+msgstr "پاک شده؟"
+
+#: link/models.py:55
+msgid "Link"
+msgstr "لینک"
+
+#: link/models.py:56
+msgid "Links"
+msgstr "لینک‌ها"
+
+#: payment/apps.py:8
+msgid "Payment management"
+msgstr "مدیریت پرداخت‌ها"
+
+#: payment/models.py:8
+msgid "Payment has not been made"
+msgstr "پرداخت انجام نشده است"
+
+#: payment/models.py:9
+msgid "Payment has failed"
+msgstr "پرداخت ناموفق بوده است"
+
+#: payment/models.py:10
+msgid "An error has occurred"
+msgstr "خطا رخ داده است"
+
+#: payment/models.py:11
+msgid "blocked"
+msgstr "بلوکه شده"
+
+#: payment/models.py:12
+msgid "Return to payer"
+msgstr "برگشت به پرداخت کننده"
+
+#: payment/models.py:13
+msgid "Systemic backlash"
+msgstr "برگشت خورده سیستمی"
+
+#: payment/models.py:14
+msgid "Cancellation of payment"
+msgstr "انصراف از پرداخت"
+
+#: payment/models.py:15
+msgid "Moved to the payment gateway"
+msgstr "به درگاه پرداخت منتقل شد"
+
+#: payment/models.py:16
+msgid "Awaiting payment confirmation"
+msgstr "در انتظار تایید پرداخت"
+
+#: payment/models.py:17
+msgid "Payment is confirmed"
+msgstr "پرداخت تایید شده است"
+
+#: payment/models.py:18
+msgid "Payment has already been confirmed"
+msgstr "پرداخت قبلا تایید شده است"
+
+#: payment/models.py:19
+msgid "It was deposited to the recipient"
+msgstr "به دریافت کننده واریز شد"
+
+#: payment/models.py:30
+msgid "Order ID"
+msgstr "شناسه سفارش"
+
+#: payment/models.py:34
+msgid "Transaction ID"
+msgstr "شناسه تراکنش"
+
+#: payment/models.py:37
+msgid "Amount"
+msgstr "مقدار"
+
+#: payment/models.py:41
+msgid "Date"
+msgstr "تاریخ"
+
+#: payment/models.py:46
+msgid "Card number"
+msgstr "شماره کارت"
+
+#: payment/models.py:50
+msgid "Gateway track ID"
+msgstr "کد رهگیری درگاه"
+
+#: payment/models.py:55
+msgid "Bank track ID"
+msgstr "کد رهگیری بانک"
+
+#: payment/models.py:60
+msgid "Status"
+msgstr "وضعیت"
+
+#: payment/models.py:65
+msgid "Transaction"
+msgstr "تراکنش"
+
+#: payment/models.py:66
+msgid "Transactions"
+msgstr "تراکنش‌ها"
