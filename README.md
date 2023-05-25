@@ -36,8 +36,8 @@ Configure the necessary project settings in this file.
 docker-compose up --build
 ```
 
-4. The project is now accessible, and you can open it in your browser:
-> http://localhost:8000
+4. The project is now accessible, and you can open document of project in your browser:
+> http://localhost:8000/swagger/
 
 ## Requirements
 To build and run the project, you need the following dependencies:
