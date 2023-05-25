@@ -5,6 +5,8 @@ this project is a simple link shortener that takes a long URL from user and conv
 ## Features
 - Convert long URLs into short links
 - Supports both English and Persian languages.
+- Uses two-step verification of the user account using SMS.
+- Connected to the payment gateway
 
 ## Technologies
 - Implemented using [Django framework](https://www.djangoproject.com/) and [Django Rest Framework](https://www.django-rest-framework.org/)
