@@ -52,7 +52,7 @@ class UserRegistrationView(APIView):
 
             email = valid_data.get('email')
             token = secrets.token_urlsafe(32)
-            activation_link = request.build_absolute_uri(reverse('user_activate', args=(token,)))
+            activation_link = request.build_absolute_uri(reverse('account:user_activate', args=(token,)))
 
             html_email = render_to_string(
                 template_name='account/verify_email.html',

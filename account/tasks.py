@@ -1,11 +1,14 @@
 from django.core.mail import send_mail
 from celery import shared_task
 from decouple import config
+import logging
 from kavenegar import (
     KavenegarAPI,
     APIException,
     HTTPException,
 )
+
+logger = logging.getLogger(__name__)
 
 
 @shared_task
@@ -31,11 +34,10 @@ def send_sms_validation_code_task(receptor: str, token:str) -> None:
         }
         api.verify_lookup(params)
 
-    # TODO: Save log errors
     except APIException as e:
-        print('Error:', str(e))
-        print(f'confirm code: {token}')
+        logger.error(f'SMS Service APIError: {str(e)}')
+        logger.info(f'confirm code: {token}')
 
     except HTTPException as e:
-        print('Error:', str(e))
-        print(f'confirm code: {token}')
+        logger.error(f'SMS Service HTTPError: {str(e)}')
+        logger.info(f'confirm code: {token}')
