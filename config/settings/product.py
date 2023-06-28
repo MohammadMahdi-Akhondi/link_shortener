@@ -22,3 +22,6 @@ EMAIL_HOST_USER     = config('EMAIL_HOST_USER')
 DEFAULT_FROM_EMAIL  = config('DEFAULT_FROM_EMAIL')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS       = True
+
+# static file configs
+STATIC_ROOT = BASE_DIR / 'static/'

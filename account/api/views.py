@@ -45,7 +45,7 @@ class UserRegistrationView(APIView):
         if register_serializer.is_valid(raise_exception=True):
             valid_data = register_serializer.validated_data
             try:
-                User.objects.create_user(is_active=False, **valid_data)
+                User.objects.create_user(**valid_data)
 
             except DatabaseError:
                 raise exceptions.UserNotCreated
@@ -64,8 +64,8 @@ class UserRegistrationView(APIView):
                 recipient=email,
             )
 
-            # Save token in cache for 24 hours
-            cache.set(token, email, timeout=86400)
+            # Save token in cache for 5 minutes
+            cache.set(token, email, timeout=300)
 
             return Response(
                 data={
@@ -87,7 +87,7 @@ class UserActivateView(APIView):
 
         cache.delete(token)
         user = User.objects.filter(email=email)
-        user.update(is_active=True)
+        user.update(is_confirmed=True)
 
         # TODO: redirect user to login page
         return Response(

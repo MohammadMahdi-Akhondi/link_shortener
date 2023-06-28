@@ -18,6 +18,10 @@ class User(AbstractUser):
         null=True, blank=True,
         verbose_name=_('Phone')
     )
+    is_confirmed = models.BooleanField(
+        default=False,
+        verbose_name=_('is confirmed?')
+    )
     premium_until = models.DateTimeField(
         default=timezone.now,
         verbose_name=_('Premium up to'),
