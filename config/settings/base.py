@@ -36,8 +36,19 @@ ALLOWED_HOSTS = config(
     default='',
 )
 
+LOCAL_APPS = [
+    'account.apps.AccountConfig',
+    'link.apps.LinkConfig',
+    'payment.apps.PaymentConfig',
+]
+
 
 # Application definition
+THIRD_PARTY_APPS = [
+    'rest_framework',
+    'drf_yasg',
+]
+
 
 INSTALLED_APPS = [
     # django apps
@@ -48,14 +59,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # third party apps 
-    'rest_framework',
-    'drf_yasg',
-
-    # my apps
-    'account.apps.AccountConfig',
-    'link.apps.LinkConfig',
-    'payment.apps.PaymentConfig',
+    *THIRD_PARTY_APPS,
+    *LOCAL_APPS,
 ]
 
 MIDDLEWARE = [
@@ -88,17 +93,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 # Cache
 CACHES = {

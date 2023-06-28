@@ -1,11 +1,10 @@
-version: '1'
+version: "3"
 
 services:
-  web:
-    container_name: back-link
-    build:
-      context: .
-      dockerfile: Dockerfile
+  app:
+    container_name: link-shortener
+    build: .
+    command: sh -c "gunicorn --bind 0.0.0.0:8000 config.wsgi"
     volumes:
       - .:/app
     ports:
@@ -14,73 +13,61 @@ services:
       - db
       - redis
       - rabbitmq
+    restart: unless-stopped
     environment:
+      - DB_NAME=postgres
+      - DB_USER=admin
+      - DB_PASSWORD=strong_pass
       - DB_HOST=db
       - DB_PORT=5432
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
       - CELERY_RESULT_BACKEND=redis://redis:6379
-    restart: always
-    command: python /app/manage.py runserver 0.0.0.0:8000
-  
+
   worker:
-    container_name: worker
-    build:
-      context: .
-      dockerfile: Dockerfile
+    container_name: celery-worker
+    build: .
+    command: celery -A config worker -l INFO
     volumes:
       - .:/app
+    restart: unless-stopped
     environment:
+      - DB_NAME=postgres
+      - DB_USER=admin
+      - DB_PASSWORD=strong_pass
       - DB_HOST=db
       - DB_PORT=5432
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
       - CELERY_RESULT_BACKEND=redis://redis:6379
-    restart: always
-    command: celery -A config worker -l INFO
 
   db:
     container_name: postgres
     image: postgres:15
-    restart: always
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=strong_pass
     expose:
       - 5432
     volumes:
     - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=strong_pass
 
   redis:
     container_name: redis
     image: redis:7.0.11
     expose:
       - 6379
-    restart: always
+    restart: unless-stopped
   
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3.11
-    ports:
-      - "5672:5672"
-    restart: always
+    expose:
+      - 5672
+    restart: unless-stopped
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
-  
-  nginx:
-    container_name: nginx
-    image: nginx:1.23
-    ports:
-      - "80:80"
-    restart: always
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - web
 
 volumes:
   postgres_data:
