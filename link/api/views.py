@@ -2,6 +2,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status, generics
+from rest_framework.views import APIView
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseRedirect
@@ -105,7 +106,7 @@ class DeleteLinkView(generics.DestroyAPIView):
         link.save()
 
 
-class RedirectLinkView(generics.GenericAPIView):
+class RedirectLinkView(APIView):
     authentication_classes = (JWTAuthentication, )
 
     def get(self, request, token):
