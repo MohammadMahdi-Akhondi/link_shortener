@@ -13,7 +13,7 @@ User = get_user_model()
 class CreateLinkTest(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.url = reverse('create_link')
+        self.url = reverse('link:create_link')
         self.data = {
             'title': 'test link',
             'real_link': 'http://test.com/'
@@ -55,7 +55,7 @@ class CreateLinkTest(TestCase):
 class ListLinkTest(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.url = reverse('list_link')
+        self.url = reverse('link:list_link')
         self.user = User.objects.create_user(
             email='test@gmail.com',
             password='1234',
@@ -90,7 +90,7 @@ class DetailLinkTest(TestCase):
             title='test', real_link='http://test.com',
             token='token', user=self.owner,
         )
-        self.url = reverse('detail_link', args=[self.link.id])
+        self.url = reverse('link:detail_link', args=[self.link.id])
 
     def test_with_unauthorized_user(self):
         response = self.client.get(self.url)
@@ -141,7 +141,7 @@ class UpdateLinkTest(TestCase):
             title='test', real_link='http://test.com',
             token='token', user=self.owner,
         )
-        self.url = reverse('update_link', args=[self.link.id])
+        self.url = reverse('link:update_link', args=[self.link.id])
         self.data = {
             'title': 'test',
             'real_link': 'http://new.com',
@@ -209,7 +209,7 @@ class DeleteLinkTest(TestCase):
             title='test', real_link='http://test.com',
             token='token', user=self.owner,
         )
-        self.url = reverse('delete_link', args=[self.link.id])
+        self.url = reverse('link:delete_link', args=[self.link.id])
 
     def test_with_unauthorized_user(self):
         response = self.client.delete(self.url)
@@ -259,7 +259,7 @@ class RedirectLinkTest(TestCase):
             title='test', real_link='http://test.com',
             token='token', user=self.owner,
         )
-        self.url = reverse('redirect_link', args=[self.link.token])
+        self.url = reverse('link:redirect_link', args=[self.link.token])
 
     def test_with_invalid_method(self):
         response = self.client.post(self.url)

@@ -12,7 +12,7 @@ User = get_user_model()
 class UserRegistrationTest(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.url = reverse('user_registration')
+        self.url = reverse('account:user_registration')
         self.data = {
             'first_name': 'mahdi',
             'last_name': 'Akhondi',
@@ -58,7 +58,7 @@ class UserActivateTest(TestCase):
         user = User.objects.create_user(**self.data)
         token = 'gjfhgewtj4-grjgr54332e_'
         cache.set(token, self.data['email'])
-        url = reverse('user_activate', args=(token,))
+        url = reverse('account:user_activate', args=(token,))
         response = self.client.get(url)
         user.refresh_from_db()
         self.assertEqual(
@@ -66,12 +66,12 @@ class UserActivateTest(TestCase):
             status.HTTP_200_OK,
         )
         self.assertEqual(
-            user.is_active,
+            user.is_confirmed,
             True,
         )
 
     def test_activate_with_invalid_token(self):
-        url = reverse('user_activate', args=('mahdi',))
+        url = reverse('account:user_activate', args=('mahdi',))
         response = self.client.get(url)
         self.assertEqual(
             response.status_code,
@@ -82,7 +82,7 @@ class UserActivateTest(TestCase):
 class UserPhoneActivateTest(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.url = reverse('phone_activate')
+        self.url = reverse('account:phone_activate')
         self.data = {'phone': '09121234567'}
         self.user = User.objects.create_user(
             email='test@gmail.com',
@@ -118,7 +118,7 @@ class UserPhoneActivateTest(TestCase):
 class UserPhoneVerifyTest(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.url = reverse('phone_verify')
+        self.url = reverse('account:phone_verify')
         self.data = {'code': '123456'}
         self.user = User.objects.create_user(
             email='test@gmail.com',
