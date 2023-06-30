@@ -37,7 +37,7 @@ class CreateLinkView(generics.GenericAPIView):
         """
         create_serializer = self.serializer_class(data=request.data)
         if create_serializer.is_valid(raise_exception=True):
-            token_length = 12
+            token_length = 10
             user = request.user
             if user.premium_until and user.premium_until > timezone.now():
                 token_length = 6

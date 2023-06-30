@@ -178,7 +178,10 @@ SWAGGER_SETTINGS = {
     'DEFAULT_GENERATOR_CLASS': 'drf_yasg.generators.OpenAPISchemaGenerator',
     'VALIDATOR_URL': None,
     'DEFAULT_INFO': 'config.urls.api_info',
+    'DEFAULT_API_URL': 'https://link.mahdipy.ir',
 }
+
+DEFAULT_API_URL_SCHEME = 'https'
 
 # Celery configs
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
