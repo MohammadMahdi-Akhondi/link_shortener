@@ -15,8 +15,7 @@ schema_view = get_schema_view(
       title=_('Link shortener'),
       default_version='v1',
       description='Link shortener service implemented using Django Formwork and Django Rest',
-      terms_of_service='https://www.google.com/policies/terms/',
-      contact=openapi.Contact('mohammadmahdi.developer@gmail.com'),
+      contact=openapi.Contact(email='mohammadmahdi.developer@gmail.com'),
       license=openapi.License(name="GNU GENERAL PUBLIC LICENSE"),
    ),
    public=True,
@@ -37,6 +36,6 @@ urlpatterns = [
    path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
    # URLs of the documents
-   path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+   path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
